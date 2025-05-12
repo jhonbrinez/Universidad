@@ -1,0 +1,91 @@
+package fabian1;
+
+public class Fabian1 {
+
+    public static void main(String[] args) {
+        interfaz inter = new interfaz();
+        inter.menu();
+    }
+    
+}
+package fabian1;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author jhonb
+ */
+public class confirmar {
+    private int cant;
+    private int[] edad;
+    private boolean[] confir;
+
+    public int getCant() {
+        return cant;
+    }
+
+    public void setCant(int cant) {
+        this.cant = cant;
+    }
+
+    public int[] getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int[] edad) {
+        this.edad = edad;
+    }
+
+    public boolean[] getConfir() {
+        return confir;
+    }
+
+    public void setConfir(boolean[] confir) {
+        this.confir = confir;
+    }
+
+    
+    public String verificar() {
+        String mensaje = "";
+
+        for (int i = 0; i < cant; i++) {
+            if (edad[i] >= 18 && confir[i]) {
+                mensaje += "Persona " + (i + 1) + " puede manejar.\n";
+            } else {
+                mensaje += "Persona " + (i + 1) + " NO puede manejar.\n";
+            }
+        }
+
+        return mensaje;
+    }
+}
+
+package fabian1;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author jhonb
+ */
+public class interfaz {
+    
+    public void menu(){
+        confirmar datos = new confirmar();
+        datos.setCant(Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de personas a verificar:")));
+        
+        int[] edades = new int[datos.getCant()];
+        boolean[] licencias = new boolean[datos.getCant()];
+        for (int i = 0; i < datos.getCant(); i++) {
+            edades[i] = Integer.parseInt(JOptionPane.showInputDialog("Edad de la persona " + (i + 1)));
+            int resp = JOptionPane.showConfirmDialog(null, "¿La persona " + (i + 1) + " tiene licencia?", "Confirmar", JOptionPane.YES_NO_OPTION);
+            licencias[i] = (resp == JOptionPane.YES_OPTION);
+        }
+        datos.setEdad(edades);
+        datos.setConfir(licencias);
+
+        String resultado = datos.verificar();
+        JOptionPane.showMessageDialog(null, resultado);
+    }
+    }
