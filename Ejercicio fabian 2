@@ -1,0 +1,97 @@
+package fabian2;
+
+/**
+ *
+ * @author jhonb
+ */
+public class Fabian2 {
+
+    public static void main(String[] args) {
+        interfaz inter = new interfaz();
+        inter.mostrar
+        ();
+    }
+    
+}
+package fabian2;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author jhonb
+ */
+public class clasificacion {
+    private int cant;
+    private String[] productos;
+    private int[] precio;
+
+    public int getCant() {
+        return cant;
+    }
+
+    public void setCant(int cant) {
+        this.cant = cant;
+    }
+
+    public String[] getProductos() {
+        return productos;
+    }
+
+    public void setProductos(String[] productos) {
+        this.productos = productos;
+    }
+
+    public int[] getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(int[] precio) {
+        this.precio = precio;
+    }
+    public String clasifi(){
+        String mensaje = "";
+        for (int i = 0; i < getCant(); i++) {
+            if (getPrecio()[i] >= 50000) {
+                mensaje += "El producto " + getProductos()[i] + " esta en la clasificacion caro.\n";
+            } else if (getPrecio()[i] <= 50000 && getPrecio()[i] >= 25000 ){
+                mensaje += "El producto " + getProductos()[i] + " esta en la clasificacion economica.\n";
+            }else if(getPrecio()[i] <= 25000 && getPrecio()[i] >= 1000){
+                mensaje += "El producto " + getProductos()[i] + " esta en la clasificacion muy economica.\n";
+            }else if(getPrecio()[i] <= 999 && getPrecio()[i] >= 0){
+                mensaje += "El producto " + getProductos()[i] + " NO se encoentra en la tienda.\n";
+            }else{
+                mensaje+="NO se puede numeros negativos";
+            }
+        }
+        return mensaje;
+    }
+}
+package fabian2;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author jhonb
+ */
+public class interfaz {
+    
+    public void mostrar(){
+        clasificacion clasi = new clasificacion();
+        clasi.setCant(Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de productos a clasificar:")));
+        
+        String[] produc = new String[clasi.getCant()];
+        int[] pre = new int[clasi.getCant()];
+        for(int i = 0 ; i < clasi.getCant() ; i++){
+             produc[i]= JOptionPane.showInputDialog("Ingrese el nombre del producto " + (i + 1));
+             pre[i]= Integer.parseInt(JOptionPane.showInputDialog("Ingrese el precio del producto " + (i + 1)));
+        }
+        clasi.setProductos(produc);
+        clasi.setPrecio(pre);
+        
+        String resultado = clasi.clasifi();
+        JOptionPane.showMessageDialog(null, resultado);
+    }
+    
+}
