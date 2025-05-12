@@ -1,0 +1,66 @@
+
+package uriel1;
+
+/**
+ *
+ * @author jhonb
+ */
+public class Uriel1 {
+
+   
+    public static void main(String[] args) {
+        interfaz inter=new interfaz();
+        inter.Mostrar();
+    }
+    
+}
+
+package uriel1;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author jhonb
+ */
+public class persona {
+    private String nombre;
+    private int  edad;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+ 
+    public void mos(){
+         JOptionPane.showMessageDialog(null,"Su nombre es: "+getNombre()+"\nSu edad es: "+getEdad()+" años");
+    }
+}
+
+package uriel1;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author jhonb
+ */
+public class interfaz {
+    public void Mostrar(){
+        persona nom = new persona();
+    nom.setNombre(JOptionPane.showInputDialog("ingrese su nombre:"));
+    nom.setEdad(Integer.parseInt(JOptionPane.showInputDialog("Ingrese su edad:")));
+    nom.mos();
+    }
+}
