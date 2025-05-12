@@ -1,0 +1,68 @@
+package aury2;
+
+/**
+ *
+ * @author jhonb
+ */
+public class Aury2 {
+
+    public static void main(String[] args) {
+       interfaz inter = new interfaz();
+       inter.menu();
+    }
+    
+}
+package aury2;
+
+
+
+/**
+ *
+ * @author jhonb
+ */
+public class calcular {
+    private double inicial,descuento;
+
+    public double getInicial() {
+        return inicial;
+    }
+
+    public void setInicial(double inicial) {
+        this.inicial = inicial;
+    }
+
+    public double getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(double descuento) {
+        this.descuento = descuento;
+    }
+    
+    public String infor(){
+        String mensaje="";
+        double subtotal=getInicial()*(getDescuento()/100);
+        double total=getInicial()-subtotal;
+        mensaje += "Precio del producto"+getInicial()+"\nEl descuento en procentaje es de: "+getDescuento()+"%"+"\nEl descuento del pruducto es de: "+subtotal+"\nEl precio final del producto es: "+total;
+        return mensaje;
+    }
+}
+package aury2;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author jhonb
+ */
+public class interfaz {
+    public void menu(){
+        calcular calcu = new calcular();
+        calcu.setInicial(Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio del producto")));
+        calcu.setDescuento(Double.parseDouble(JOptionPane.showInputDialog("Ingrese el descuento del producto:")));
+        calcu.infor();
+        String resultado = calcu.infor();
+        JOptionPane.showMessageDialog(null,resultado );
+    }
+    
+}
