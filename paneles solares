@@ -177,9 +177,14 @@ public class PanelSolar {
         int diasBajos = 0;
         for (DiadeProduccion dia : dias) {
             float total = dia.produccionTotal();
-            //if (total < 0,6 
-            //FALTA AQUI
+           if (total < 0.6f) {
+                diasBajos++;
+            }
         }
+        return dias.size() > 0 && diasBajos > dias.size() / 2;
+    }
+}
+
 package diadeproduccion;
 import java.util.ArrayList;
 
