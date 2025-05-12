@@ -1,0 +1,87 @@
+package aury1;
+
+/**
+ *
+ * @author jhonb
+ */
+public class Aury1 {
+
+    public static void main(String[] args) {
+        menu inter = new menu();
+        inter.mostrar();
+    }
+    
+}
+
+package aury1;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author jhonb
+ */
+public class informacion {
+    private String marca,operador,modelo,num;
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getOperador() {
+        return operador;
+    }
+
+    public void setOperador(String operador) {
+        this.operador = operador;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+}
+package aury1;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author jhonb
+ */
+public class menu {
+    public static void mostrar(){
+        informacion inter = new informacion();
+        int op=0;
+        do{
+            op=Integer.parseInt(JOptionPane.showInputDialog("Bienvenido a registrar tu celular\n1.Registrar un celular\n2.Mostrar informacion del celular registrado\n3.Salir"));
+        switch(op){
+            case 1: inter.setMarca(JOptionPane.showInputDialog("Ingrese la marca del celular: "));
+                    inter.setOperador(JOptionPane.showInputDialog("Ingrese el operador del celular: "));
+                    inter.setModelo(JOptionPane.showInputDialog("Ingrese el modelo del celular: "));
+                    inter.setNum(JOptionPane.showInputDialog("Ingrese el numero del celular: "));
+                    break;
+            case 2: JOptionPane.showMessageDialog(null, "La informacion del celular\nLa marca del celular es: "+inter.getMarca()+"\nEl operador del celular es: "+inter.getOperador()+"\nEl modelo del celular es: "+inter.getModelo()+"\nEl numero del celular es: "+inter.getNum()); 
+                break;
+            case 3: JOptionPane.showMessageDialog(null, "Saliendo del programa");
+            break;
+            default: JOptionPane.showMessageDialog(null, "Si no va a registrar un celular salgase del programa");
+        }
+        }while(op!=3);
+    }
+}
