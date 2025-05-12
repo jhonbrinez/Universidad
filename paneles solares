@@ -232,9 +232,42 @@ public class GestorPlantaSolar {
           float produccionTotal = 0;
           ArrayList<PanelSolar> panelesFallo = new ArrayList<>();
           ArrayList<AreaPaneles> areasCriticas = new ArrayList<>();
-      //FALTAAAAA
+      //FALTAAAAA 
+ // Parte que falta 
+for (AreaPaneles area : areas) {
+            float produccionArea = area.produccionTotalArea();
+            produccionTotal += produccionArea;
 
-      }
+            if (produccionArea < 2.0f) { 
+                areasCriticas.add(area);
+            }
+
+            for (PanelSolar panel : area.getPaneles()) {
+                if (panel.esIneficiente()) {
+                    panelesFallo.add(panel);
+                }
+            }
+        }
+
+        StringBuilder reporte = new StringBuilder();
+        reporte.append("=== REPORTE DE PLANTA SOLAR ===\n");
+        reporte.append("Producción total acumulada: ").append(produccionTotal).append(" kWh\n\n");
+
+        reporte.append("Paneles ineficientes:\n");
+        for (PanelSolar p : panelesFallo) {
+            reporte.append("- ID Panel: ").append(p.getId()).append("\n");
+        }
+
+        reporte.append("\nÁreas críticas:\n");
+        for (AreaPaneles a : areasCriticas) {
+            reporte.append("- Área crítica con producción de: ")
+                   .append(a.produccionTotalArea()).append(" kWh\n");
+        }
+
+        return reporte.toString();
+    }
+}
+
 package diadeproduccion;
 import javax.swing.JOptionPane;
 
@@ -279,9 +312,35 @@ public class Interfaz {
         }
 
         case "3" -> {
-            String idPanel = JOptionPane.showInputDialog("ID del panel: ");
-        } 
-        
+            String idPanel = JOptionPane.showInputDialog("ID del panel: "); // Faltante del case 3 
+            PanelSolar panelEncontrado = null;
+
+      for (AreaPaneles area : gestor.getAreas()) {
+           for (PanelSolar panel : area.getPaneles()) {
+                if (panel.getId().equalsIgnoreCase(idPanel.trim())) {
+                   panelEncontrado = panel;
+                  break;
+                }
+             }
+          if (panelEncontrado != null) break;
+       }
+
+     if (panelEncontrado != null) {
+          float[] produccion = new float[24];
+          for (int i = 0; i < 24; i++) {
+              String entrada = JOptionPane.showInputDialog("Producción en hora " + i + ":");
+              try {
+                   produccion[i] = Float.parseFloat(entrada);
+              } catch (NumberFormatException e) {
+                   produccion[i] = 0; // Si el usuario no pone número, se registra 0
+           }
+        }
+        panelEncontrado.agregarDia(new DiaProduccion(produccion));
+        JOptionPane.showMessageDialog(null, "Producción registrada correctamente.");
+    } else {
+        JOptionPane.showMessageDialog(null, "Panel no encontrado.");
+    }
+}      
         //FALTA
 
         case "4" -> {
