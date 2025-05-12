@@ -1,0 +1,54 @@
+package uriel2;
+
+/**
+ *
+ * @author jhonb
+ */
+public class Uriel2 {
+
+    public static void main(String[] args) {
+        interfaz inter = new interfaz();
+        inter.Mostrar();
+    }
+    
+}
+package uriel2;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author jhonb
+ */
+public class pestaña {
+    private String nombre;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    public void bienvenido(){
+        JOptionPane.showMessageDialog(null,"Bienvenido a este programa "+getNombre());
+    }
+    
+}
+package uriel2;
+
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author jhonb
+ */
+public class interfaz {
+    public void Mostrar(){
+        pestaña nom = new pestaña();
+    nom.setNombre(JOptionPane.showInputDialog("ingrese su nombre:"));
+    nom.bienvenido();
+    }
+    
+}
