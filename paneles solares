@@ -1,0 +1,315 @@
+package diadeproduccion;
+
+public class Main {
+    public static void main(String[] args) {
+        Interfaz inter =new Interfaz();
+        inter.menu();
+    }
+
+}
+package diadeproduccion;
+
+public class DiadeProduccion {
+    private float[] produccionHoraria;
+
+    public DiadeProduccion(float[] produccionHoraria){ 
+    this.produccionHoraria = produccionHoraria; //AQUI SE GUARDA
+    }
+
+    public float produccionTotal() {
+        float total = 0; // inicializa
+        for (int i = 0; i < produccionHoraria.length; i++) { //ARREGLO
+           total += produccionHoraria[i];
+        }
+        return total;
+    }
+
+    public float promedioPorHora() {
+        return produccionTotal() / produccionHoraria.length; 
+    }
+
+    public int[] tresHorasPico() {
+        int[] hora = new int[24]; //Guarda la producción por hora
+        for (int i = 0; i < 24; i++) { //recorre indices del arreglo
+        hora[i]=i;
+    }
+
+    for (int i =0; i < hora.length - 1; i++) {
+        for (int j = i + 1; j < hora.length; j++) {
+            if (produccionHoraria[hora[j]] > produccionHoraria[hora[i]]){
+              int temp = hora[i];
+              hora[i] = hora[j];
+              hora[j] = temp;
+            }
+        }        
+    }
+
+    int[] top3 = new int[3];
+    for (int i = 0; i < 3; i++) {
+        top3[i] = hora[i];
+    }
+    return top3; //NO ENTENDI
+    }
+
+    public boolean huboFallo() {
+        for (int i = 0; i < produccionHoraria.length; i++) {
+            if (produccionHoraria[i] ==0){
+                return true;
+            }
+        }
+        return false; //si alguna hora tiene produccion 0
+    }
+
+    public float[] eficienciaHoraria() {
+        float max = 0;
+        for (float valor : produccionHoraria) {
+            if (valor > max) {
+                max = valor; //valor maximo
+        }
+    }
+
+        float[] eficiencia = new float[24];
+        if (max == 0) return eficiencia;
+
+        for (int i = 0; i < 24; i++) {
+            eficiencia[i] = produccionHoraria[i] / max;
+        }
+        return eficiencia;
+    }
+}
+package diadeproduccion;
+import java.util.ArrayList;
+
+public class AreaPaneles {
+    private String nombre; //nombre del area
+    private ArrayList<PanelSolar> paneles; //lista de objetos
+
+    public AreaPaneles(String nombre) {
+    this.nombre = nombre;
+    this.paneles = new ArrayList<>(); //inicializa la lista
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    //METODOS
+    public void agregarPanel(PanelSolar panel) {
+        paneles.add(panel); //añade
+    }
+
+    public ArrayList<PanelSolar> getPaneles() {
+        return paneles;
+    }
+
+    public float produccionTotalArea() {
+        float total = 0;
+        for (PanelSolar p : paneles) {
+            total += p.produccionTotalAcumulada();
+        }
+        return total;
+    }
+
+    public float eficienciaPromedio() {
+        if (paneles.isEmpty()) 
+            return 0; // si no hay devuelve 0
+        float suma = 0;
+        for (PanelSolar p : paneles) {
+            suma += p.promedioDiario(); //suma los promedios de cada panel y los divide por la cantidad de paneles
+        }
+        return suma / paneles.size();
+    }
+
+    public ArrayList<PanelSolar> panelesIneficientes() {
+        ArrayList<PanelSolar> ineficientes = new ArrayList<>();
+        for (PanelSolar p : paneles) {
+            if (p.esIneficiente()) {
+                ineficientes.add(p);
+            }
+        }
+        return ineficientes;
+
+    //public boolean requiereMantenimiento(){
+    //    if (paneles.isEmpty()) return false;
+
+    //    int conProblemas = 0 ;
+    //    for (PanelSolar p : paneles) {
+    //        if (p.esIneficiente()) {
+
+            }
+        }
+package diadeproduccion;
+import java.util.ArrayList; 
+
+public class PanelSolar {
+
+    private String id;
+    private ArrayList<DiadeProduccion> dias; //dias=lista de objetos "diaproduccion"
+
+    public PanelSolar(String id) {
+        this.id = id; //crea un nuevo panel con su id
+        this.dias = new ArrayList<>(); //inicializa la lista DIAS
+    }
+    public String getId() {
+        return id;
+    }
+
+    //METODOS
+    public void agregarDia(DiadeProduccion dia) {
+        dias.add(dia); //se va registrando los dias
+    }
+
+    public float produccionTotalAcumulada() {
+        float total = 0;
+        for (DiadeProduccion dia : dias) { //lo recorre
+            total += dia.produccionTotal(); //suma 
+        }
+        return total;
+    }
+
+    public float promedioDiario() {
+        if (dias.isEmpty()) //para que valide que es 0 
+            return 0; //si no hay dias devuelve 0
+        return produccionTotalAcumulada() / dias.size(); //divide en los dias
+    }
+
+    public boolean esIneficiente() {
+        int diasBajos = 0;
+        for (DiadeProduccion dia : dias) {
+            float total = dia.produccionTotal();
+            //if (total < 0,6 
+            //FALTA AQUI
+        }
+package diadeproduccion;
+import java.util.ArrayList;
+
+public class GestorPlantaSolar {
+    private ArrayList<AreaPaneles> areas;
+
+    public GestorPlantaSolar() {
+        areas = new ArrayList<>(); //constructor para inicializar
+    }
+
+  //METODOS
+      public void registrarArea(AreaPaneles area) {
+          areas.add(area);
+      }
+
+      public ArrayList<AreaPaneles> getAreas() {
+          return areas;
+      }
+
+      public AreaPaneles areaMejorProduccion() {
+          if (areas.isEmpty())
+              return null;
+
+      AreaPaneles mejor = areas.get(0);
+      for (AreaPaneles a : areas) {
+          if (a.produccionTotalArea() > mejor.produccionTotalArea()) {
+              mejor = a;
+          }
+      }
+      return mejor;
+      }
+
+      public PanelSolar mejorPanel() {
+          PanelSolar mejor = null;
+          float mejorRendimiento = 0;
+
+          for (AreaPaneles area : areas){
+              for (PanelSolar panel : area.getPaneles()) {
+                  float promedio = panel.promedioDiario();
+                  if (promedio > mejorRendimiento) {
+                      mejorRendimiento = promedio;
+                      mejor = panel;
+                  }
+              }
+          }
+          return mejor;
+      }
+
+      public String generarReporte(){
+          float produccionTotal = 0;
+          ArrayList<PanelSolar> panelesFallo = new ArrayList<>();
+          ArrayList<AreaPaneles> areasCriticas = new ArrayList<>();
+      //FALTAAAAA
+
+      }
+package diadeproduccion;
+import javax.swing.JOptionPane;
+
+public class Interfaz {
+
+        GestorPlantaSolar gestor= new GestorPlantaSolar(); 
+
+    public void menu() {
+        String opcion;
+    do {
+         opcion = JOptionPane.showInputDialog("""
+            MENU
+            1. Registrar área
+            2. Registrar panel a un área
+            3. Agregar producción diaria a un panel
+            4. Consultar área con mejor producción
+            5. Consultar mejor panel
+            6. Generar reporte
+            7. Salir
+        """);
+
+    switch (opcion) {
+        case "1" -> {
+        String nombre = JOptionPane.showInputDialog("Nombre del área:");
+        gestor.registrarArea(new AreaPaneles(nombre));
+
+        }
+
+        case "2" -> {
+        String nombreArea = JOptionPane.showInputDialog("Nombre del area: ");
+        AreaPaneles area = null;
+        for (AreaPaneles a : gestor.getAreas()) {
+            if (a.getNombre().equals(nombreArea)) {
+                area = a;
+                break;
+            }
+        }
+        if (area !=null) {
+            String idPanel = JOptionPane.showInputDialog("ID del panel: ");
+            area.agregarPanel(new PanelSolar(idPanel));
+            }
+        }
+
+        case "3" -> {
+            String idPanel = JOptionPane.showInputDialog("ID del panel: ");
+        } 
+        
+        //FALTA
+
+        case "4" -> {
+        AreaPaneles mejor = gestor.areaMejorProduccion();
+        if (mejor !=null) {
+        JOptionPane.showMessageDialog(null, "Mejor área: " + mejor.getNombre());
+    }
+        else {
+        JOptionPane.showMessageDialog(null, "No hay areas registradas");
+    }
+        }
+
+        case "5" -> {
+        PanelSolar mejor = gestor.mejorPanel();
+        if (mejor !=null){
+        JOptionPane.showMessageDialog(null, "Mejor panel: " + mejor.getId());
+    }
+        else {
+        JOptionPane.showMessageDialog(null, "No hay paneles registrados");
+    }
+        }
+
+        case "6" -> {
+            String reporte = gestor.generarReporte();
+            JOptionPane.showMessageDialog(null, reporte);
+        }
+    }
+
+    } while (!opcion.equals("7"));
+  }
+}
